@@ -19,8 +19,8 @@
  +-----------------------------------------------------------------------+
 */
 
-if (\PHP_VERSION_ID < 70300) {
-    exit('Unsupported PHP version. Required PHP >= 7.3.');
+if (\PHP_VERSION_ID < 80100) {
+    exit('Unsupported PHP version. Required PHP >= 8.1.');
 }
 
 // application constants
@@ -28,7 +28,7 @@ define('RCMAIL_VERSION', '1.7-git');
 define('RCMAIL_START', microtime(true));
 
 if (!defined('INSTALL_PATH')) {
-    define('INSTALL_PATH', dirname($_SERVER['SCRIPT_FILENAME']) . '/');
+    define('INSTALL_PATH', realpath(__DIR__ . '/../..') . '/');
 }
 
 if (!defined('RCMAIL_CONFIG_DIR')) {

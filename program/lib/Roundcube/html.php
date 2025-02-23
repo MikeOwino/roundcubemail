@@ -63,7 +63,7 @@ class html
      *
      * @param string       $tagname Tag name
      * @param array|string $attrib  Tag attributes as key/value pairs, or 'class' attribute value
-     * @param string       $content Optional Tag content (creates a container tag)
+     * @param array|string $content Optional Tag content (creates a container tag)
      * @param array        $allowed List with allowed attributes, omit to allow all
      *
      * @return string The XHTML tag
@@ -81,6 +81,9 @@ class html
         if (isset($content) || in_array($tagname, self::$containers)) {
             $suffix = !empty($attrib['noclose']) ? $suffix : '</' . $tagname . '>' . $suffix;
             unset($attrib['noclose'], $attrib['nl']);
+            if (is_array($content)) {
+                $content = implode('', $content);
+            }
 
             return '<' . $tagname . self::attrib_string($attrib, $allowed) . '>' . $content . $suffix;
         }
@@ -243,7 +246,7 @@ class html
             $attr = ['src' => $attr];
         }
 
-        $allowed = ['src', 'name', 'width', 'height', 'border', 'frameborder', 'onload', 'allowfullscreen'];
+        $allowed = ['src', 'name', 'width', 'height', 'border', 'frameborder', 'onload', 'allowfullscreen', 'sandbox'];
 
         return self::tag('iframe', $attr, $cont, array_merge(self::$common_attrib, $allowed));
     }
@@ -902,8 +905,8 @@ class html_table extends html
             foreach ($this->header->cells as $c => $col) {
                 $rowcontent .= self::tag($head_tagname, $col->attrib, $col->content);
             }
-            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', $this->header->attrib ?: null, $rowcontent, parent::$common_attrib)) :
-                self::tag($row_tagname, ['class' => 'thead'], $rowcontent, parent::$common_attrib);
+            $thead = $this->tagname == 'table' ? self::tag('thead', null, self::tag('tr', $this->header->attrib ?: null, $rowcontent, parent::$common_attrib))
+                : self::tag($row_tagname, ['class' => 'thead'], $rowcontent, parent::$common_attrib);
         }
 
         foreach ($this->rows as $r => $row) {

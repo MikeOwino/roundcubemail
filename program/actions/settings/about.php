@@ -43,7 +43,7 @@ class rcmail_action_settings_about extends rcmail_action
             },
             'license' => static function () {
                 return 'This program is free software; you can redistribute it and/or modify it under the terms '
-                    . 'of the <a href="http://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
+                    . 'of the <a href="https://www.gnu.org/licenses/gpl.html" target="_blank">GNU General Public License</a> '
                     . 'as published by the Free Software Foundation, either version 3 of the License, '
                     . 'or (at your option) any later version.<br/>'
                     . 'Some <a href="https://roundcube.net/license" target="_blank">exceptions</a> '
@@ -152,10 +152,10 @@ class rcmail_action_settings_about extends rcmail_action
         $meta = $rcmail->output->get_skin_info();
 
         $content = html::p(null,
-            html::span('skinitem', html::span('skinname', rcube::Q($meta['name'])) . (!empty($meta['version']) ? '&nbsp;(' . $meta['version'] . ')' : '') . html::br() .
-                (!empty($meta['author_link']) ? html::span('skinauthor', $rcmail->gettext(['name' => 'skinauthor', 'vars' => ['author' => $meta['author_link']]])) . html::br() : '') .
-                (!empty($meta['license_link']) ? html::span('skinlicense', $rcmail->gettext('license') . ':&nbsp;' . $meta['license_link']) . html::br() : '') .
-                (!empty($meta['uri']) ? html::span('skinhomepage', $rcmail->gettext('source') . ':&nbsp;' . html::a(['href' => $meta['uri'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($rcmail->gettext('download')))) : ''))
+            html::span('skinitem', html::span('skinname', rcube::Q($meta['name'])) . (!empty($meta['version']) ? '&nbsp;(' . $meta['version'] . ')' : '') . html::br()
+                . (!empty($meta['author_link']) ? html::span('skinauthor', $rcmail->gettext(['name' => 'skinauthor', 'vars' => ['author' => $meta['author_link']]])) . html::br() : '')
+                . (!empty($meta['license_link']) ? html::span('skinlicense', $rcmail->gettext('license') . ':&nbsp;' . $meta['license_link']) . html::br() : '')
+                . (!empty($meta['uri']) ? html::span('skinhomepage', $rcmail->gettext('source') . ':&nbsp;' . html::a(['href' => $meta['uri'], 'target' => '_blank', 'tabindex' => '-1'], rcube::Q($rcmail->gettext('download')))) : ''))
         );
 
         return $content;

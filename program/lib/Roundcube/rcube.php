@@ -460,7 +460,7 @@ class rcube
         $sess_path = $this->config->get('session_path');
         $sess_samesite = $this->config->get('session_samesite');
         $lifetime = $this->config->get('session_lifetime', 0) * 60;
-        $is_secure = $this->config->get('use_https') || rcube_utils::https_check();
+        $is_secure = rcube_utils::https_check();
 
         // set session domain
         if ($sess_domain) {
@@ -659,9 +659,9 @@ class rcube
 
         // any of loaded domains (plugins)
         if ($domain == '*') {
-            foreach ($this->plugins->loaded_plugins() as $domain) {
-                if (isset($this->texts[$domain . '.' . $name])) {
-                    $ref_domain = $domain;
+            foreach ($this->plugins->loaded_plugins() as $domain2) {
+                if (isset($this->texts[$domain2 . '.' . $name])) {
+                    $ref_domain = $domain2;
                     return true;
                 }
             }
@@ -1343,6 +1343,12 @@ class rcube
             $stdout = 'php://stdout';
             $line = "{$name}: {$line}\n";
             return file_put_contents($stdout, $line, \FILE_APPEND) !== false;
+        }
+
+        // write to php's configured error_log (or that which is configured in .htaccess)
+        if ($log_driver == 'php') {
+            $line = "{$name}: {$line}";
+            return error_log($line);
         }
 
         // log_driver == 'file' is assumed here

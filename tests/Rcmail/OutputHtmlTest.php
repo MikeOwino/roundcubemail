@@ -274,6 +274,20 @@ class OutputHtmlTest extends TestCase
     }
 
     /**
+     * Test text to html conversion
+     *
+     * @dataProvider provide_conditions_cases
+     */
+    #[DataProvider('provide_conditions_cases')]
+    public function test_conditions($input, $output)
+    {
+        $object = new \rcmail_output_html();
+        $result = $object->just_parse($input);
+
+        $this->assertSame($output, $result);
+    }
+
+    /**
      * Data for test_conditions()
      */
     public static function provide_conditions_cases(): iterable
@@ -316,20 +330,6 @@ class OutputHtmlTest extends TestCase
     }
 
     /**
-     * Test text to html conversion
-     *
-     * @dataProvider provide_conditions_cases
-     */
-    #[DataProvider('provide_conditions_cases')]
-    public function test_conditions($input, $output)
-    {
-        $object = new \rcmail_output_html();
-        $result = $object->just_parse($input);
-
-        $this->assertSame($output, $result);
-    }
-
-    /**
      * Test reset()
      */
     public function test_reset()
@@ -361,8 +361,8 @@ class OutputHtmlTest extends TestCase
         $output = new \rcmail_output_html();
 
         $this->assertSame('http://test', $output->asset_url('http://test'));
-        $this->assertSame('/ui.js', $output->asset_url('/ui.js'));
-        $this->assertSame('skins/elastic/ui.js', $output->asset_url('/ui.js', true));
+        $this->assertSame('static.php/ui.js', $output->asset_url('/ui.js'));
+        $this->assertSame('static.php/skins/elastic/ui.js', $output->asset_url('/ui.js', true));
     }
 
     /**
